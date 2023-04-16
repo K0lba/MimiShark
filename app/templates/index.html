@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{url_for('static',filename='bootstrap.min.css')}}">
+  <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+  <link rel="icon" href="{{url_for('static',filename='favlogo.ico')}}" type="image/x-icon">
+  <title>MininetShark</title>
+</head>
+
+<body>
+  <header>
+    <nav class="navbar bg-body-tertiary">
+      <div class="d-flex" style="margin-left: 30px;  flex-wrap: wrap; align-items: center;">
+        <a class="navbar-brand" style="position: relative; bottom: 3px;" href="https://miminet.ru/">
+          <img src="{{url_for('static',filename='logo.png')}}" width="150" alt="Miminet">
+        </a>
+        <div class="input-group inputWidth" style="height: 40px;">
+          <input type="text" class="form-control" placeholder="Start typing a Display Filter"
+            aria-label="Recipient's username with two button addons">
+          <button class="btn btn-outline-success" type="button">Apply</button>
+          <button class="btn btn-outline-danger" type="button">Clear</button>
+        </div>
+      </div>
+      <div class="d-flex" style="justify-content: space-between; width: 500px; margin-right: 50px; margin-left: 50px;">
+        <div class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Filters
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item disabled" href="#">Manage saved filters</a></li>
+          </ul>
+        </div>
+        <div class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Analysis Tools
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Follow Stream</a></li>
+            <li><a class="dropdown-item disabled" href="#">Follow TLS</a></li>
+            <li><a class="dropdown-item disabled" href="#">Follow HTTP</a></li>
+            <li><a class="dropdown-item" href="#">Loader Diagrams</a></li>
+            <li><a class="dropdown-item" href="#">Network Endpoints</a></li>
+            <li><a class="dropdown-item" href="#">DNS Activity</a></li>
+          </ul>
+        </div>
+        <div class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Graphs
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">All Traffic</a></li>
+            <li><a class="dropdown-item" href="#">Current Display Filter</a></li>
+          </ul>
+        </div>
+        <div class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Export
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Download File</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item disabled" href="#">Create New Session</a></li>
+          </ul>
+        </div>
+        <div class="nav-item dropdown">
+          <a class="nav-link active" aria-current="page" href="#">Return</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <div style="margin-right: 12px; margin-left: 5px;">
+    <div class="row text-center border cont" style="overflow: auto; height: 350px;">
+
+      <table class="table table-striped">
+        <thead style="position: sticky;top: 0" class="bg-light">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Time</th>
+            <th scope="col">Source</th>
+            <th scope="col">Destination</th>
+            <th scope="col">Protocol</th>
+            <th scope="col">Length</th>
+            <th scope="col">Info</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>78712</td>
+            <td>2103.024603</td>
+            <td>192.168.0.106</td>
+            <td>149.154.167.99</td>
+            <td>TCP</td>
+            <td>54 59255 → 443 [ACK] Seq=227477 Ack=171980 Win=511 Len=0</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>78713</td>
+            <td>2103.551719</td>
+            <td>192.168.0.100</td>
+            <td>255.255.255.255</td>
+            <td>UDP</td>
+            <td>214 49153 → 6667 Len=172</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>78715</td>
+            <td>2103.863947</td>
+            <td>192.168.0.106</td>
+            <td>188.114.98.224</td>
+            <td>TLSv1.3</td>
+            <td>93 Application Data</td>
+          </tr>
+          <tr>
+            <th scope="row">4</th>
+            <td>78760</td>
+            <td>2104.592737</td>
+            <td>93.189.63.146</td>
+            <td>192.168.0.106</td>
+            <td>TLSv1.3</td>
+            <td>519 Application Data</td>
+          </tr>
+          <tr>
+            <th scope="row">5</th>
+            <td>78768</td>
+            <td>2104.607946</td>
+            <td>192.168.0.106</td>
+            <td>192.168.0.1</td>
+            <td>DNS</td>
+            <td>79 Standard query 0x5502 A cdn4.buysellads.net</td>
+          </tr>
+          <tr>
+            <th scope="row">6</th>
+            <td>78782</td>
+            <td>2104.709159</td>
+            <td>151.139.128.10</td>
+            <td>192.168.0.106</td>
+            <td>TLSv1.3</td>
+            <td>716 Application Data, Application Data, Application Data</td>
+          </tr>
+          <tr>
+            <th scope="row">7</th>
+            <td>78715</td>
+            <td>2103.863947</td>
+            <td>192.168.0.106</td>
+            <td>188.114.98.224</td>
+            <td>TLSv1.3</td>
+            <td>93 Application Data</td>
+          </tr>
+          <tr>
+            <th scope="row">8</th>
+            <td>78715</td>
+            <td>2103.863947</td>
+            <td>192.168.0.106</td>
+            <td>188.114.98.224</td>
+            <td>TLSv1.3</td>
+            <td>93 Application Data</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="row">
+      <div class="col-7 text-center border" style="overflow: auto;">
+        <div style="height: 282px;">
+          <div class="info" style="margin-left: 10px;">
+            <input id="info__body_1" class="info__switch" type="checkbox">
+            <label for="info__body_1" class="info__headline" style="text-align: left;">Frame 1: 74 bytes on wire (592 bits), 74 bytes captured (592 bits)</label>
+            <div class="info__body" style="text-align: left; width: 840px;">
+              <li>
+                Arrival Time: Mar  1, 2011 20:45:13.266821000 UTC
+              </li>
+              <li>[Time shift for this packet: 0.000000000 seconds]</li>
+              <li>Epoch Time: 1299012313.361089000 seconds</li>
+              <li>[Time delta from previous captured frame: 0.047200000 seconds]</li>
+              <li>[Time delta from previous displayed frame: 0.047200000 seconds]</li>
+              <li>[Time since reference or first frame: 0.094268000 seconds]</li>
+              <li>Frame Number: 5</li>
+              <li>Frame Length: 66 bytes (528 bits)</li>
+              <li>Capture Length: 66 bytes (528 bits)</li>
+              <li>[Frame is marked: False]</li>
+              <li>[Frame is ignored: False]</li>
+              <li>[Protocols in frame: eth:ethertype:ip:tcp]</li>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-5 text-center border">
+        <div style="display: flex; justify-content: space-between;  align-items: flex-start;">
+          <div class="d-flex">
+            <div style="text-align: left;">
+              <p>0000</p>
+              <p>0010</p>
+              <p>0020</p>
+              <p>0030</p>
+              <p>0040</p>
+            </div>
+            <div style="text-align: left; margin-left: 20px;">
+              <p>00 26 62 2f 47 87 00 1d 60 b3 01 84 08 00 45 00</p>
+              <p>00 3c cb 5b 40 00 40 06 28 e4 c0 a8 01 8c ae 8f</p>
+              <p>d5 b8 e1 4e 00 50 8e 50 19 01 00 00 00 00 a0 02</p>
+              <p>16 d0 8f 47 00 00 02 04 05 b4 04 02 08 0a 00 21</p>
+              <p>d2 5a 00 00 00 00 01 03 03 </p>
+            </div>
+          </div>
+          <div style="width: 105px; text-align: left; margin-right: 20px;">
+            <p>.&b/G...`.....E.
+              .<.[@.@.(....... ...N.P.P........ ...G...........! .Z........</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{url_for('static',filename='bootstrap.bundle.min.js')}}"></script>
+</body>
+
+</html>
