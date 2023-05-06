@@ -76,3 +76,40 @@ div.info__body>li:nth-of-type(odd) {
     font-weight: normal;
     cursor: pointer;
 }
+
+tbody tr:not(.no-hover):hover {
+    background: #d0f2fb; /* Цвет фона при наведении */
+    color: #000000; /* Цвет текста при наведении */
+   }
+
+.selected{
+    background: #87CEEB;
+}
+
+
+.decode_body{
+    text-align: left; 
+    width: 840px; 
+    transition: 0.15s;
+    margin-left: 30px;
+}
+
+.decode_head{
+    text-align: left; 
+    text-decoration: none;
+    color: black;
+}
+
+.dropdown-toggle::before{
+    transform: rotate(-90deg);
+    transition: 0.15s;
+    /* margin-left: -80px; */
+}
+
+.dropdown-toggle[aria-expanded="true"]::before {
+    transform: rotate(0deg);
+}
+
+.decode_width{
+    width: 450px;
+}

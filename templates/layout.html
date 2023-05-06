@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{url_for('static',filename='bootstrap.min.css')}}">
+  <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+  <link rel="icon" href="{{url_for('static',filename='favlogo.ico')}}" type="image/x-icon">
+  <title>MiminetShark</title>
+</head>
+
+<body>
+  <header>
+    <nav class="navbar bg-body-tertiary">
+      <div class="d-flex" style="margin-left: 30px;  flex-wrap: wrap; align-items: center;">
+        <a class="navbar-brand" style="position: relative; bottom: 3px;" href="https://miminet.ru/">
+          <img src="{{url_for('static',filename='logo.png')}}" width="150" alt="Miminet">
+        </a>
+      </div>
+      <div class="d-flex" style="justify-content: end; width: 500px; margin-right: 50px; margin-left: 50px;">
+        <div class="nav-item dropdown">
+          <a class="nav-link active" aria-current="page" href="#">Return</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <div style="margin-right: 12px; margin-left: 5px;">
+    <div class="row text-center border cont" style="overflow: auto; height: 350px;">
+      <table class="table table-striped" id="tab">
+        <col width="1%">
+        <col width="25%">
+        <col width="21%">
+        <col width="21%">
+        <col width="16%">
+        <col width="16%">
+        <thead style="position: sticky;top: 0; box-shadow: inset 0 -1px 0 #000000;" class="bg-light thead_bord">
+          <tr>
+            <th>#</th>
+            <th>Time</th>
+            <th>Source</th>
+            <th>Destination</th>
+            <th>Protocol</th>
+            <th>Length</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          {% block pcap %}{% endblock %}
+
+        </tbody>
+      </table>
+    </div>
+    <div class="row">
+      {% block decode %}{% endblock %}
+      <div class="col-5 text-center border">
+        <div style="display: flex; justify-content: space-between;  align-items: flex-start; margin: 7px;">
+          <div class="d-flex">
+            {% block rows %}{% endblock %}
+            {% block bytes %}{% endblock %}
+          </div>
+          {% block ascii %}{% endblock %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    var data = '{{pcap_data}}';
+  </script>
+  <script src="{{url_for('static',filename='bootstrap.bundle.min.js')}}"></script>
+  <script src="{{url_for('static',filename='script.js')}}"></script>
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+{% extends 'layout.html'%}
+{% block pcap %}
+{% for el in pcap_data %}
+<tr id="{{loop.index}}">
+    <th scope="row">{{loop.index}}</th>
+    <td>{{el.time}}</td>
+    <td>{{el.source}}</td>
+    <td>{{el.destination}}</td>
+    <td>{{el.protocol}}</td>
+    <td>{{el.length}}</td>
+</tr>
+{%endfor%}
+{% endblock %}
+{% block decode %}
+<div class="col-7 border" style="overflow: auto;">
+    <div style="height: 282px;">
+        <div id="decode" class="info">
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block rows %}
+<div style="text-align: left;" id="rows">
+</div>
+{% endblock %}
+{% block bytes %}
+<div style="text-align: left; margin-left: 50px;" id="bytes">
+</div>
+{% endblock %}
+{% block ascii %}
+<div style="width: 105px; text-align: left; margin-right: 40px;" id="ascii">
+</div>
+{% endblock %}
