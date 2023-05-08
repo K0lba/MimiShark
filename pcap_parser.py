@@ -6,47 +6,49 @@ from dpkt import iteritems, Packet
 import subprocess
 
 
-def pprint(self, indent=1):
-    if self.__public_fields__ is None:
+def ip_protocol_prop(self, indent=1):
+    try:
         self._create_public_fields()
+    except:
+        return 'No protocol'
 
     l_ = []
 
     def add_field(fn, fv):
-
-        try:
-            l_.append('%s=%r,  # %s' % (fn, fv, self.__pprint_funcs__[fn](fv)))
-        except (AttributeError, KeyError):
-            l_.append('%s=%r,' % (fn, fv))
+        if(fn == 'sum'):
+            l_.append('%s=%s' % (fn, fv))
+        else:
+            l_.append('%s=%s,' % (fn, fv))
 
     for field_name in self.__public_fields__:
-        add_field(field_name, getattr(self, field_name))
+        if isinstance (self, dpkt.tcp.TCP):
 
-    for attr_name, attr_value in iteritems(self.__dict__):
-        if (attr_name[0] != '_' and                   
-            attr_name != self.data.__class__.__name__.lower()):  
-            if type(attr_value) == list and attr_value:  
-                l_.append('%s=[' % attr_name)
-                for av1 in attr_value:
-                    l_.append('  ' + repr(av1) + ',') 
-                l_.append('],')
+            tcp = self
+            d = {dpkt.tcp.TH_FIN:'FIN', dpkt.tcp.TH_SYN:'SYN', dpkt.tcp.TH_RST:'RST', dpkt.tcp.TH_PUSH:'PUSH', dpkt.tcp.TH_ACK:'ACK', dpkt.tcp.TH_URG:'URG'}
+
+            active_flags = filter(lambda t: t[0] & tcp.flags, d.items())
+            flags_str = ' + '.join(t[1] for t in active_flags)
+
+            flag = f'({str(flags_str)})'
+        if not("src" == field_name or "dst" == field_name or "urp" == field_name or "group" == field_name):
+            if("sport" == field_name):
+                add_field("sourceport", getattr(self, field_name))
+                continue
+            if("dport" == field_name):
+                add_field("destinationport", getattr(self, field_name))
+                continue
+            if("flags" == field_name):
+                add_field(field_name, flag)
             else:
-                add_field(attr_name, attr_value)
+                add_field(field_name, getattr(self, field_name))
 
-    ethernet = ' %s(' % self.__class__.__name__  
+
+    ip_prot = ' %s: ' % self.__class__.__name__  
     for ii in l_:
-        ethernet += ' ' * indent + '%s' % ii
-
-    if self.data:
-        if isinstance(self.data, Packet): 
-            ethernet += ' ' * indent + 'data='+ ''
-            ethernet += pprint(self.data, indent=indent + 2)
-            pass
-        else:
-            ethernet += ' ' * indent + 'data=%r' % self.data
-    ethernet += ' ' * (indent - 1)+ ''
-    ethernet +=')  # %s' % self.__class__.__name__  
-    return ethernet
+        ip_prot += ' ' * indent + '%s' % ii
+    # ip_prot += ' ' * (indent - 1)+ ''
+    # ip_prot +=' '
+    return ip_prot
 
 
 json_file = []
@@ -80,8 +82,20 @@ def add_packets(pcap):
                     temp.append('.')
                     continue
                 temp.append(b[2:].replace("'",''))
-            ascii = "".join(temp).replace('"',"'").replace('\\',"|").replace("'",'')
-            pcap_file["ascii"] = ascii
+            ascii = "".join(temp)
+            # .replace('"',"'").replace('\\',"|").replace("'",'')
+            # pcap_file["ascii"] = ascii
+
+            bytes_repr = ' '.join(mac_to_str(buf).split(':'))
+            ascii = ''
+            for i in bytes_repr.split(' '):
+                a = bytes.fromhex(i)
+                b = str(a)[2:len((str(a)))-1]
+                if(len(b)<2):
+                    ascii += b
+                else:
+                    ascii+= '.'
+            pcap_file["ascii"] = ascii.replace('"','doublePrime').replace("'",'singlePrime')
 
             byte = repr(icmp.data).replace('\\','').replace('"',"").replace("b'","").replace("'","").replace('x',' ').replace('A','').split(' ')
             temp = []
@@ -95,24 +109,13 @@ def add_packets(pcap):
             if(temp == ""):
                 temp = "no data"
 
-            pcap_file["bytes"] = temp
-            decode = pprint(eth).replace('\\','|').replace("'","").replace('"','')
-            pcap_file["decode_eth"] = f" Ethernet Frame(  Destination: {mac_to_str(eth.dst)}  Sourse: {mac_to_str(eth.src)}  Type: IPv{ip.v} (0x{eth.type}) )"
-            # pcap_file["decode_ip"] = 
-            # pcap_file[f"decode_{ip.p}"] = 
+            # pcap_file["bytes"] = temp
+            pcap_file["bytes"] = bytes_repr
+            # decode = pprint(eth).replace('\\','|').replace("'","").replace('"','')
+            pcap_file["decode_eth"] = f" Ethernet Frame:  Destination: {mac_to_str(eth.dst)}  Sourse: {mac_to_str(eth.src)}  Type: IPv{ip.v} (0x{bytes_repr[36:41].replace(' ','')})"
+            pcap_file["decode_ip"] = ip_protocol_prop(ip)
+            pcap_file[f"decode_{ip.data.__class__.__name__}"] = ip_protocol_prop(ip.data)
             json_file.append(pcap_file)
-            print(ip.len)
-# v=4,
-# hl=5,
-# tos=0,
-# len=173,
-# id=58872,
-# rf=0,
-# df=1,
-# mf=0,
-# offset=0,
-# ttl=128,
-# p=6,
         print(json.dumps(json_file), file=file)
 
 

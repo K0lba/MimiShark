@@ -56,8 +56,8 @@
     </div>
     <div class="row">
       {% block decode %}{% endblock %}
-      <div class="col-5 text-center border">
-        <div style="display: flex; justify-content: space-between;  align-items: flex-start; margin: 7px;">
+      <div class="col-5 text-center border" style="overflow: auto;">
+        <div style="display: flex; justify-content: space-between;  align-items: flex-start; padding: 10px; height: 282px;">
           <div class="d-flex">
             {% block rows %}{% endblock %}
             {% block bytes %}{% endblock %}
