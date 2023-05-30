@@ -19,7 +19,7 @@ def ReadJson(path):
 @app.route('/')
 def main_page():
     data = ReadJson(path)
-    return render_template('home.html',pcap_data = data)
+    return render_template('index.html',pcap_data = data)
 
 
 if __name__ == '__main__':
