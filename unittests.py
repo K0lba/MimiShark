@@ -1,15 +1,20 @@
 import unittest
-from pcap_parser import Add_Json
-#Test cases to test Calulator methods
-#You always create  a child class derived from unittest.TestCase
+import dpkt
+from pcap_parser import add_packets, ip_protocol_prop
+
 class TestParser(unittest.TestCase):
-  #setUp method is overridden from the parent class TestCase
-  def setUp(self):
-    self.calculator = Add_Json
-  #Each test method starts with the keyword test_
-  def test_time(self):
-    self.assertEqual((1+10), 11)
+
+    def setUp(self):
+        self.parser = add_packets
+        self.ip_prop = ip_protocol_prop
+        self.pcap = dpkt.pcap.Reader(open('temp/testsforparser.pcap','rb'))
+        self.ip = "bad ip"
+
+    def test_parser(self):
+        self.assertEqual(self.parser(self.pcap)[0]["length"], 52)
+
+    def test_prot_prop(self):
+        self.assertEqual(self.ip_prop(self.ip), "No protocol")
   
-# Executing the tests in the above test case class
 if __name__ == "__main__":
-  unittest.main()
+    unittest.main()
